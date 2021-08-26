@@ -1,0 +1,51 @@
+---
+
+- name: Create directory for backup data.
+  file:
+    path: "{{ backup_data }}"
+    state: directory
+    mode: '0755'
+
+- name: Create directory for postgres backup.
+  file:
+    path: "{{ postgres_backup }}"
+    state: directory
+    mode: '0777'
+
+- name: Create directory for wordpress backup.
+  file:
+    path: "{{ wordpress_backup }}"
+    state: directory
+    mode: '0777'
+
+# - name: Configure cron for hourly Mongo backups.
+#   cron:
+#     minute: "0"
+#     hour: "*"
+#     name: mongo_backup
+#     job: |
+#       /usr/bin/docker exec `/usr/bin/docker ps -q --filter ancestor=mongo:{{ mongo_image_version }}` bash -c 'mongodump --oplog --gzip --archive=/backup/mongo-$(date +\%Y-\%m-\%d_\%Hh\%Mm\%Ss).gz'
+
+# - name: Configure cron for hourly Rocketchat backups.
+#   cron:
+#     minute: "0"
+#     hour: "*"
+#     name: rocketchat_backup
+#     job: |
+#       /usr/bin/docker exec `/usr/bin/docker ps -q --filter ancestor=rocketchat/rocket.chat:{{ rocketchat_image_version }}` bash -c 'tar -zcvf /backup/rocketchat-$(date +\%Y-\%m-\%d_\%Hh\%Mm\%Ss).tar.gz /app'
+
+# - name: Clean up old Mongo backups once per day.
+#   cron:
+#     minute: "10"
+#     hour: "1"
+#     name: mongo_backup_cleanup
+#     job: |
+#       find {{ mongo_backup }}/* -mtime +{{ backup_retention_days }} -exec rm -rf {} \;
+
+# - name: Clean up old Rocketchat backups once per day.
+#   cron:
+#     minute: "20"
+#     hour: "1"
+#     name: rocketchat_backup_cleanup
+#     job: |
+#       find {{ rocketchat_backup }}/* -mtime +{{ backup_retention_days }} -exec rm -rf {} \;

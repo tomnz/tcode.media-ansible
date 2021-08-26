@@ -1,0 +1,6 @@
+---
+- name: Create directory for wordpress container data.
+  file:
+    path: "{{ wordpress_data }}"
+    state: directory
+    mode: '0755'

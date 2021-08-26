@@ -1,0 +1,27 @@
+---
+- name: Configure all servers
+  hosts: tcode_media
+  become: true
+  vars:
+    pip_install_packages:
+      - name: docker
+      - name: docker-compose
+
+    ############
+    # UPGRADES
+
+    # Docker Compose is installed via direct download - update version manually
+    # https://github.com/docker/compose/releases
+    docker_compose_version: "1.28.3"
+
+    # Uncomment to upgrade Docker Engine from apt
+    # docker_package_state: latest
+
+    postgres_image_version: latest
+    wordpress_image_version: latest
+    swag_image_version: latest
+
+  roles:
+    - common
+    - docker
+    - tcode_media

@@ -1,0 +1,13 @@
+---
+- name: restart docker-compose
+  docker_compose:
+    project_src: "{{ docker_compose_config_dir }}"
+    pull: true
+    restarted: true
+
+- name: restart swag
+  docker_compose:
+    project_src: "{{ docker_compose_config_dir }}"
+    services:
+      - swag
+    restarted: true

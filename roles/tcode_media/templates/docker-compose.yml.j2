@@ -1,0 +1,33 @@
+version: '3'
+
+# TODO: Fill this out
+
+services:
+  postgres:
+    image: postgres
+  
+  wordpress:
+    image: wordpress
+    depends_on:
+      - postgres
+
+  swag:
+    image: linuxserver/swag:{{ swag_image_version }}
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+      - "URL={{ tcode_media_domain.split('.')[1:] | join('.') }}"
+      - "SUBDOMAINS={{ tcode_media_domain.split('.')[0] }},"
+      - VALIDATION=http
+      - ONLY_SUBDOMAINS=true
+    restart: unless-stopped
+    volumes:
+      - "{{ swag_data }}:/config"
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - wordpress

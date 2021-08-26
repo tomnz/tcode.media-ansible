@@ -1,0 +1,6 @@
+---
+- name: Create directory for postgres container data.
+  file:
+    path: "{{ postgres_data }}"
+    state: directory
+    mode: '0755'
