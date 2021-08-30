@@ -11,8 +11,16 @@
     dest: "{{ docker_compose_config }}"
   notify: restart docker-compose
 
-- name: Configure SWAG.
+- name: Configure SWAG for HTTPS.
   template:
-    src: "{{ 'site-confs.default.https.j2' if wordpress_domain is empty else 'site-confs.default.http.j2' }}"
+    src: site-confs.default.https.j2
     dest: "{{ swag_data }}/nginx/site-confs/default"
   notify: restart swag
+  when: wordpress_domain
+
+- name: Configure SWAG for HTTP.
+  template:
+    src: site-confs.default.http.j2
+    dest: "{{ swag_data }}/nginx/site-confs/default"
+  notify: restart swag
+  when: not wordpress_domain
