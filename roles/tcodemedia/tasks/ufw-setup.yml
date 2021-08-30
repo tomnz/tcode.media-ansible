@@ -1,0 +1,29 @@
+---
+- name: Allow SSH in UFW.
+  ufw:
+    rule: allow
+    port: '22'
+    proto: tcp
+
+- name: Disable incoming by default in UFW.
+  ufw:
+    state: enabled
+    policy: reject
+
+- name: Enable HTTP in UFW.
+  ufw:
+    rule: allow
+    port: '80'
+    proto: tcp
+
+- name: Enable HTTPS in UFW.
+  ufw:
+    rule: allow
+    port: '443'
+    proto: tcp
+
+- name: TEMPORARY - Enable direct access to application.
+  ufw:
+    rule: allow
+    port: '8000'
+    proto: tcp
