@@ -8,6 +8,12 @@
 - include_tasks: fail2ban.yml
 - include_tasks: unattended-upgrades.yml
 
+- name: Ensure additional dependencies are installed.
+  apt:
+    name:
+      - ufw
+    state: present
+
 - name: Clean up apt.
   apt:
     autoremove: true
