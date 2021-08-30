@@ -23,14 +23,12 @@ services:
     image: "wordpress:{{ wordpress_image_version }}"
     restart: unless-stopped
     environment:
-      WORDPRESS_DB_HOST: "mysql:3306"
+      WORDPRESS_DB_HOST: "mysql://mysql:3306"
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: "{{ lookup('password', 'credentials/mysql_password') }}"
     volumes:
       - "{{ wordpress_data }}:/var/www/html"
-    ports:
-      - "8000:80"
     depends_on:
       - mysql
 
