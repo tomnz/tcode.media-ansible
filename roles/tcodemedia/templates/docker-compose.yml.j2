@@ -39,7 +39,7 @@ services:
       - "URL={{ wordpress_domain.split('.')[1:] | join('.') }}"
       - "SUBDOMAINS={{ wordpress_domain.split('.')[0] }},"
       - VALIDATION=http
-      - ONLY_SUBDOMAINS=true
+      - ONLY_SUBDOMAINS=false
     volumes:
       - "{{ swag_data }}:/config"
     ports:
