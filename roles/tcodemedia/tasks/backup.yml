@@ -6,13 +6,13 @@
     state: directory
     mode: '0755'
 
-- name: Create directory for postgres backup.
+- name: Create directory for MySQL backup.
   file:
-    path: "{{ postgres_backup }}"
+    path: "{{ mysql_backup }}"
     state: directory
     mode: '0777'
 
-- name: Create directory for wordpress backup.
+- name: Create directory for WordPress backup.
   file:
     path: "{{ wordpress_backup }}"
     state: directory

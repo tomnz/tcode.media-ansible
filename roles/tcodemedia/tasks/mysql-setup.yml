@@ -1,0 +1,6 @@
+---
+- name: Create directory for MySQL container data.
+  file:
+    path: "{{ mysql_data }}"
+    state: directory
+    mode: '0755'

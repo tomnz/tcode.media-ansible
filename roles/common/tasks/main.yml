@@ -6,7 +6,7 @@
 
 - include_tasks: python.yml
 - include_tasks: fail2ban.yml
-- include_tasks: unattented-upgrades.yml
+- include_tasks: unattended-upgrades.yml
 
 - name: Clean up apt.
   apt:

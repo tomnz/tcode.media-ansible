@@ -12,9 +12,12 @@ Assuming a (fresh) standard VM with latest debian:
 - Configure prerequisites (view setup.sh for details):
   - `chmod +x setup.sh`
   - `sudo bash -c './setup.sh'`
+- Set environment variables, e.g.:
+  - `echo "export WORDPRESS_DOMAIN=chat.example.com" >> ~/.bash_profile`
+  - `source ~/.bash_profile`
 - Provision Ansible:
   - `ansible-galaxy install -r requirements.yml`
-  - `ansible-playbook -v -i hosts.yml playbook.yml`
+  - `ansible-playbook -v -i hosts.yml playbook.yml --extra-vars "{\"wordpress_domain\": \"${WORDPRESS_DOMAIN}\"}"`
 
 ## Updating
 
@@ -32,8 +35,8 @@ Test the configuration (both initial setup, and further updates) locally using [
 
 The `Vagrantfile` defines two VMs:
 
-- `tcode.media` is the main VM which mimics a cloud VM.
-- `controller` is a secondary VM which is used to remotely provision `tcode.media` using the Ansible playbook.
+- `tcodemedia` is the main VM which mimics a cloud VM.
+- `controller` is a secondary VM which is used to remotely provision `tcodemedia` using the Ansible playbook.
 
 [Install Vagrant](https://www.vagrantup.com/docs/installation) and a suitable provider for your OS such as VirtualBox. On Windows I recommend running inside WSL with the [additional setup steps](https://www.vagrantup.com/docs/other/wsl).
 
@@ -45,7 +48,7 @@ Once the node is provisioned, you should now be able to confirm that the web ser
 
 ### SSH into VM for testing
 
-    vagrant ssh tcode.media
+    vagrant ssh tcodemedia
     # Run any commands you like from here, e.g.
     docker logs nginx
 

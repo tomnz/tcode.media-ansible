@@ -1,7 +1,7 @@
 ---
-# Rocket.Chat configuration
-# Domain must be a subdomain - the first part will be split off for SWAG config
-rocketchat_domain: chat.example.com
+# Domain must be a subdomain - the first part will be split off for SWAG config.
+# If omitted, will not configure HTTPS.
+wordpress_domain: ''
 
 # Location for docker-compose configuration
 docker_compose_config_dir: /data/docker-compose
@@ -10,16 +10,16 @@ docker_compose_config: "{{ docker_compose_config_dir }}/docker-compose.yml"
 # Primary mount point for docker data directories
 docker_data: /data/docker
 # Per-container directories
-postgres_data: "{{ docker_data }}/postgres"
+mysql_data: "{{ docker_data }}/mysql"
 wordpress_data: "{{ docker_data }}/wordpress"
 swag_data: "{{ docker_data }}/swag"
 
 backup_data: /backup
 backup_retention_days: "14"
-postgres_backup: "{{ backup_data }}/postgress"
+mysql_backup: "{{ backup_data }}/mysqls"
 wordpress_backup: "{{ backup_data }}/wordpress"
 
 # Docker image versions
-postgres_image_version: alpine
-wordpress_image_version: latest
+mysql_image_version: latest
+wordpress_image_version: 5-fpm
 swag_image_version: latest

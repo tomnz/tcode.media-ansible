@@ -1,5 +1,5 @@
 ---
-- name: Create directory for wordpress container data.
+- name: Create directory for WordPress container data.
   file:
     path: "{{ wordpress_data }}"
     state: directory

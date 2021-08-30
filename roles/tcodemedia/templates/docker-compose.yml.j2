@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  postgres:
+    image: "mysql:{{ mysql_image_version }}"
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "{{ lookup('password', 'credentials/mysql_root_password') }}"
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: "{{ lookup('password', 'credentials/mysql_password') }}"
+    volumes:
+      - "{{ mysql_data }}:/var/lib/mysql"
+  
+  wordpress:
+    image: "wordpress:{{ wordpress_image_version }}"
+    restart: unless-stopped
+    environment:
+      WORDPRESS_DB_HOST: "mysql:3306"
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: "{{ lookup('password', 'credentials/mysql_password') }}"
+    volumes:
+      - "{{ wordpress_data }}:/var/www/html"
+    ports:
+      - "8000:80"
+    depends_on:
+      - mysql
+
+  swag:
+    image: "linuxserver/swag:{{ swag_image_version }}"
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+      - "URL={{ tcode_media_domain.split('.')[1:] | join('.') }}"
+      - "SUBDOMAINS={{ tcode_media_domain.split('.')[0] }},"
+      - VALIDATION=http
+      - ONLY_SUBDOMAINS=true
+    volumes:
+      - "{{ swag_data }}:/config"
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - wordpress

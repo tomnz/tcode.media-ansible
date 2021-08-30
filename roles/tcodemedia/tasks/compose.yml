@@ -13,6 +13,6 @@
 
 - name: Configure SWAG.
   template:
-    src: site-confs.default.https.j2
+    src: "{{ 'site-confs.default.https.j2' if wordpress_domain is empty else 'site-confs.default.http.j2' }}"
     dest: "{{ swag_data }}/nginx/site-confs/default"
   notify: restart swag

@@ -5,9 +5,10 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
-  config.vm.box = "bento/ubuntu-18.04"
+  config.vm.box = "bento/debian-10.10"
+  config.vm.boot_timeout = 600
 
-  config.vm.define "tcode.media" do |machine|
+  config.vm.define "tcodemedia" do |machine|
     machine.vm.network "private_network", ip: "172.17.177.21"
   end
 
@@ -18,6 +19,7 @@ Vagrant.configure("2") do |config|
     # - Ansible requires this for ansible.cfg to be used
     # - SSH requires this for using the SSH key
     machine.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=500", "fmode=500"]
+    machine.vm.synced_folder "./credentials", "/vagrant/credentials"
 
     # Make sure we're using Python 3 for Ansible
     machine.vm.provision "shell", inline: <<-SHELL
@@ -32,12 +34,12 @@ Vagrant.configure("2") do |config|
       ansible-galaxy install -r requirements.yml
     SHELL
 
-    # Launch the Ansible playbook on tcode.media
+    # Launch the Ansible playbook on tcodemedia
     machine.vm.provision "playbook", type: "ansible_local" do |ansible|
       ansible.playbook       = "playbook.yml"
       ansible.verbose        = true
       ansible.install        = true
-      ansible.limit          = "tcode.media"
+      ansible.limit          = "tcodemedia"
       ansible.inventory_path = "hosts-Vagrant.yml"
     end
   end
