@@ -18,7 +18,7 @@
     # docker_package_state: latest
 
     mysql_image_version: latest
-    wordpress_image_version: 5-fpm
+    wordpress_image_version: latest
     swag_image_version: latest
 
   roles:

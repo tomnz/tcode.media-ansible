@@ -21,5 +21,5 @@ wordpress_backup: "{{ backup_data }}/wordpress"
 
 # Docker image versions
 mysql_image_version: latest
-wordpress_image_version: 5-fpm
+wordpress_image_version: latest
 swag_image_version: latest
