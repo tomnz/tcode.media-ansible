@@ -16,11 +16,11 @@
     src: site-confs.default.https.j2
     dest: "{{ swag_data }}/nginx/site-confs/default"
   notify: restart swag
-  when: wordpress_domain
+  when: wordpress_domain|length > 0
 
 - name: Configure SWAG for HTTP.
   template:
     src: site-confs.default.http.j2
     dest: "{{ swag_data }}/nginx/site-confs/default"
   notify: restart swag
-  when: not wordpress_domain
+  when: wordpress_domain|length == 0
