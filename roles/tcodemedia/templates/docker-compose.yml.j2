@@ -6,16 +6,9 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: "{{ lookup('password', 'credentials/mysql_root_password') }}"
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
+      MYSQL_DATABASE: wordpress_db
+      MYSQL_USER: wordpress_db
       MYSQL_PASSWORD: "{{ lookup('password', 'credentials/mysql_password') }}"
-    command: [
-        '--default_authentication_plugin=mysql_native_password',
-        '--character-set-server=utf8mb4',
-        '--collation-server=utf8mb4_unicode_ci'
-    ]
-    ports:
-      - "3306:3306"
     volumes:
       - "{{ mysql_data }}:/var/lib/mysql"
   
@@ -23,9 +16,9 @@ services:
     image: "wordpress:{{ wordpress_image_version }}"
     restart: unless-stopped
     environment:
-      WORDPRESS_DB_HOST: "mysql://mysql:3306"
-      WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_HOST: "mysql:3306"
+      WORDPRESS_DB_NAME: wordpress_db
+      WORDPRESS_DB_USER: wordpress_db
       WORDPRESS_DB_PASSWORD: "{{ lookup('password', 'credentials/mysql_password') }}"
     volumes:
       - "{{ wordpress_data }}:/var/www/html"
